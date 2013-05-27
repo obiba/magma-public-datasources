@@ -21,7 +21,7 @@ allprojects {
   apply plugin: 'maven-publish'
   apply plugin: 'artifactory-publish'
 
-  group = 'org.obiba.datasource'
+  group = 'org.obiba.public-datasources'
 
   sourceCompatibility = javaVersion
   targetCompatibility = javaVersion
