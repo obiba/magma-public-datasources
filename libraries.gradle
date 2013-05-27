@@ -1,0 +1,38 @@
+ext {
+
+  magmaVersion = '1.6.5'
+  slf4jVersion = '1.7.4'
+
+  libraries = [
+
+      commons_io: 'org.apache.commons:commons-io:1.3.2',
+
+      easymock: 'org.easymock:easymock:2.5.2',
+
+      findbugs_annotation: 'net.sourceforge.findbugs:annotations:1.3.2',
+
+      guava: 'com.google.guava:guava:14.0.1',
+
+      hamcrest: 'org.hamcrest:hamcrest-all:1.1',
+
+      jsr305: 'com.google.code.findbugs:jsr305:2.0.1',
+
+      junit: 'junit:junit:4.9',
+
+      magma_api: "org.obiba.magma:magma-api:${magmaVersion}",
+      magma_datasource_csv: "org.obiba.magma:magma-datasource-csv:${magmaVersion}",
+      magma_datasource_excel: "org.obiba.magma:magma-datasource-excel:${magmaVersion}",
+      magma_datasource_fs: "org.obiba.magma:magma-datasource-fs:${magmaVersion}",
+      magma_js: "org.obiba.magma:magma-js:${magmaVersion}",
+      magma_xstream: "org.obiba.magma:magma-xstream:${magmaVersion}",
+      
+      obiba_core: 'org.obiba:obiba-core:1.4.0',
+
+      opencsv: 'net.sf.opencsv:opencsv:2.3',
+
+      slf4j_api: "org.slf4j:slf4j-api:${slf4jVersion}",
+      slf4j_log4j12: "org.slf4j:slf4j-log4j12:${slf4jVersion}",
+      jcl_slf4j: "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+
+  ]
+}
