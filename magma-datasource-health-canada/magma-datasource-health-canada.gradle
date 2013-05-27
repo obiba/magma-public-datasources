@@ -8,7 +8,6 @@ dependencies {
   compile(libraries.magma_js)
   compile(libraries.magma_xstream)
   compile(libraries.obiba_core)
-  compile(libraries.opencsv)
 
   testCompile(libraries.commons_io)
   testCompile(libraries.obiba_core)

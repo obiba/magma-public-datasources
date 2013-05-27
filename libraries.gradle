@@ -1,6 +1,6 @@
 ext {
 
-  magmaVersion = '1.6.5'
+  magmaVersion = '1.7-SNAPSHOT'
   slf4jVersion = '1.7.4'
 
   libraries = [
@@ -25,7 +25,7 @@ ext {
       magma_datasource_fs: "org.obiba.magma:magma-datasource-fs:${magmaVersion}",
       magma_js: "org.obiba.magma:magma-js:${magmaVersion}",
       magma_xstream: "org.obiba.magma:magma-xstream:${magmaVersion}",
-      
+
       obiba_core: 'org.obiba:obiba-core:1.4.0',
 
       opencsv: 'net.sf.opencsv:opencsv:2.3',

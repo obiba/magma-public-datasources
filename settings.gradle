@@ -1,6 +1,6 @@
 //rootProject.name = 'magma'
 
-include ':health-canada-datasource'
+include ':magma-datasource-health-canada'
 
 // allow us to rename sub-projects’ build files
 setBuildFileName(rootProject)
