@@ -32,8 +32,7 @@ class HCDrugsVariableValueSource implements VariableValueSource {
   @Nonnull
   @Override
   public Value getValue(ValueSet valueSet) {
-    // TODO
-    return null;
+    return ((HCDrugsValueTable.HCDrugsValueSet) valueSet).getValue(variable);
   }
 
   @Nullable

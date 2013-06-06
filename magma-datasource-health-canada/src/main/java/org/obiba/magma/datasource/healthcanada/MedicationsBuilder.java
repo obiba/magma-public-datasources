@@ -28,11 +28,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.obiba.core.util.StreamUtil;
 import org.obiba.magma.Category;
 import org.obiba.magma.Datasource;
 import org.obiba.magma.DatasourceFactory;
-import org.obiba.magma.MagmaEngine;
 import org.obiba.magma.Value;
 import org.obiba.magma.ValueSequence;
 import org.obiba.magma.ValueTableWriter;
@@ -42,7 +40,6 @@ import org.obiba.magma.ValueType;
 import org.obiba.magma.Variable;
 import org.obiba.magma.datasource.csv.CsvDatasource;
 import org.obiba.magma.datasource.excel.support.ExcelDatasourceFactory;
-import org.obiba.magma.datasource.fs.support.FsDatasourceFactory;
 import org.obiba.magma.support.DatasourceCopier;
 import org.obiba.magma.support.Disposables;
 import org.obiba.magma.support.Initialisables;
@@ -52,16 +49,12 @@ import org.obiba.magma.type.DateType;
 import org.obiba.magma.type.TextType;
 import org.obiba.magma.views.View;
 import org.obiba.magma.views.ViewAwareDatasource;
-import org.obiba.magma.xstream.MagmaXStreamExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import au.com.bytecode.opencsv.CSVReader;
-
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
-import com.thoughtworks.xstream.XStream;
 
+import au.com.bytecode.opencsv.CSVReader;
 import de.schlichtherle.io.File;
 import de.schlichtherle.io.FileInputStream;
 
@@ -153,19 +146,6 @@ public class MedicationsBuilder {
   }
 
   /**
-   * Reads a view file that will be persisted in a csv file.
-   * @param viewFile
-   * @param viewDestination
-   * @return
-   * @throws IOException
-   */
-  public MedicationsBuilder view(java.io.File viewFile, java.io.File csvDestinationFile) throws IOException {
-    this.view = readView(viewFile);
-    this.csvDestinationFile = csvDestinationFile;
-    return this;
-  }
-
-  /**
    * Write to datasource file (type is guessed from file suffix) in table with default name.
    * @param destination
    * @return
@@ -188,11 +168,7 @@ public class MedicationsBuilder {
     }
 
     DatasourceFactory factory = null;
-    if(destination.getName().toLowerCase().endsWith(".zip")) {
-      FsDatasourceFactory fsFactory = new FsDatasourceFactory();
-      fsFactory.setFile(destination);
-      factory = fsFactory;
-    } else if(destination.getName().toLowerCase().endsWith(".xlsx")) {
+    if(destination.getName().toLowerCase().endsWith(".xlsx")) {
       ExcelDatasourceFactory xlFactory = new ExcelDatasourceFactory();
       xlFactory.setFile(destination);
       factory = xlFactory;
@@ -791,24 +767,6 @@ public class MedicationsBuilder {
     reader.close();
 
     return allfiles;
-  }
-
-  private View readView(java.io.File viewFile) throws FileNotFoundException {
-    log.info("Reading {} ...", viewFile.getName());
-    XStream xstream = getXStream();
-    InputStreamReader reader = null;
-    View view = null;
-    try {
-      reader = new InputStreamReader(new FileInputStream(viewFile), Charsets.UTF_8);
-      view = (View) xstream.fromXML(reader);
-    } finally {
-      StreamUtil.silentSafeClose(reader);
-    }
-    return view;
-  }
-
-  protected XStream getXStream() {
-    return MagmaEngine.get().getExtension(MagmaXStreamExtension.class).getXStreamFactory().createXStream();
   }
 
 }

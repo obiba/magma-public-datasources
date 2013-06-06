@@ -13,7 +13,7 @@ public class HCDatasource extends AbstractDatasource {
 
   public static final String TYPE = "healthcanada";
 
-  protected HCDatasource(@Nonnull String name, String type) {
+  protected HCDatasource(@Nonnull String name) {
     super(name, TYPE);
   }
 

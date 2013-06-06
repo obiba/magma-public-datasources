@@ -29,14 +29,13 @@ public class HCDrugsVariableEntityProvider implements VariableEntityProvider {
 
   private static final Logger log = LoggerFactory.getLogger(HCDrugsVariableEntityProvider.class);
 
-  static final String ALL_FILES_ZIP_URL
-      = "http://www.hc-sc.gc.ca/dhp-mps/alt_formats/zip/prodpharma/databasdon/allfiles.zip";
-
-  private static final Charset WESTERN_EUROPE = Charset.availableCharsets().get("ISO-8859-1");
-
-  private File zsource;
-
   private Set<VariableEntity> entities;
+
+  private final HCDrugsValueTable table;
+
+  public HCDrugsVariableEntityProvider(HCDrugsValueTable table) {
+    this.table = table;
+  }
 
   @Override
   public String getEntityType() {
@@ -51,14 +50,14 @@ public class HCDrugsVariableEntityProvider implements VariableEntityProvider {
   @Override
   public Set<VariableEntity> getVariableEntities() {
     if(entities == null) {
-      CSVReader reader = getEntryReader("drug.txt");
+      CSVReader reader = table.getEntryReader("drug.txt");
 
       ImmutableSet.Builder<VariableEntity> builder = ImmutableSet.builder();
 
       try {
         String[] nextLine;
         while((nextLine = reader.readNext()) != null) {
-          nextLine = normalize(nextLine);
+          nextLine = table.normalize(nextLine);
           if(nextLine[2].equals("Human")) {
             builder.add(new VariableEntityBean(HCDrugsValueTable.DRUG_ENTITY_TYPE, nextLine[0]));
           }
@@ -79,58 +78,5 @@ public class HCDrugsVariableEntityProvider implements VariableEntityProvider {
     return entities;
   }
 
-  private void downloadLatestAllFiles() throws IOException {
-    log.info("Download from: {} ...", ALL_FILES_ZIP_URL);
 
-    // Get a connection to the URL and start up a buffered reader.
-    URL url = new URL(ALL_FILES_ZIP_URL);
-    url.openConnection();
-    InputStream reader = url.openStream();
-
-    // Setup a buffered file writer to write out what we read from the website.
-    java.io.File allfiles = java.io.File.createTempFile("healthcanada-drugs-", ".zip");
-    allfiles.deleteOnExit();
-    FileOutputStream writer = new FileOutputStream(allfiles);
-    byte[] buffer = new byte[153600];
-    int bytesRead = 0;
-
-    while((bytesRead = reader.read(buffer)) > 0) {
-      writer.write(buffer, 0, bytesRead);
-      buffer = new byte[153600];
-    }
-    writer.close();
-    reader.close();
-
-    zsource = new File(allfiles);
-  }
-
-  public File getFileEntry(String name) {
-    if(zsource == null) {
-      try {
-        downloadLatestAllFiles();
-      } catch(IOException e) {
-        throw new MagmaRuntimeException("Unable to download Health Canada Drugs from: " + ALL_FILES_ZIP_URL, e);
-      }
-    }
-    return new File(zsource, name);
-  }
-
-  public CSVReader getEntryReader(String name) {
-    try {
-      return new CSVReader(new InputStreamReader(new FileInputStream(getFileEntry(name)), WESTERN_EUROPE));
-    } catch(FileNotFoundException e) {
-      throw new MagmaRuntimeException("Unable to read Health Canada Drug file: " + name, e);
-    }
-  }
-
-  private String[] normalize(String[] line) {
-    for(int i = 0; i < line.length; i++) {
-      line[i] = normalize(line[i]);
-    }
-    return line;
-  }
-
-  private String normalize(String str) {
-    return str.trim().replaceAll("\\s{2,}", " ");
-  }
 }

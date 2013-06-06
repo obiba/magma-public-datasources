@@ -9,6 +9,8 @@ dependencies {
   compile(libraries.magma_xstream)
   compile(libraries.obiba_core)
 
+
+  testCompile(libraries.magma_xstream)
   testCompile(libraries.commons_io)
   testCompile(libraries.obiba_core)
 }
