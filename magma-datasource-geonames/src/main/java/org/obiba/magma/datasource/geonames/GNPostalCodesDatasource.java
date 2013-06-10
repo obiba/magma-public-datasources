@@ -9,7 +9,7 @@ import org.obiba.magma.support.AbstractDatasource;
 
 public class GNPostalCodesDatasource extends AbstractDatasource {
 
-  public static final String TYPE = "geonames";
+  public static final String TYPE = "geonames-postalcodes";
 
   protected GNPostalCodesDatasource(@Nonnull String name) {
     super(name, TYPE);
