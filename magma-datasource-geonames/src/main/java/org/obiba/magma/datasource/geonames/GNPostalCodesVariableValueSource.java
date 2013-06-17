@@ -38,6 +38,6 @@ public class GNPostalCodesVariableValueSource implements VariableValueSource {
   @Nullable
   @Override
   public VectorSource asVectorSource() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null;
   }
 }

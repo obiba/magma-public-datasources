@@ -48,7 +48,7 @@ public class GNPostalCodesVariableValueSourceFactory implements VariableValueSou
   private Variable.Builder newVariable(String name, ValueType type) {
     Variable.Builder builder = Variable.Builder.newVariable(name, type, GNPostalCodesValueTable.ENTITY_TYPE);
 
-    builder.addAttribute("info", "http://www.hc-sc.gc.ca/dhp-mps/prodpharma/databasdon/index-eng.php");
+    builder.addAttribute("info", "http://download.geonames.org/export/zip/readme.txt");
     builder.addAttribute("source", GNPostalCodesValueTable.POSTAL_CODES_URL);
     return builder;
   }

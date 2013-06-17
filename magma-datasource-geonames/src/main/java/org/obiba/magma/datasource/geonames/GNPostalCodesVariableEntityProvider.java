@@ -18,11 +18,11 @@ public class GNPostalCodesVariableEntityProvider implements VariableEntityProvid
 
   private final GNPostalCodesValueTable table;
 
-  private final String COUNTRY_NAME;
+  private final String countryName;
 
   public GNPostalCodesVariableEntityProvider(GNPostalCodesValueTable table, String countryName) {
     this.table = table;
-    this.COUNTRY_NAME = countryName;
+    this.countryName = countryName;
   }
 
   @Override
@@ -51,7 +51,7 @@ public class GNPostalCodesVariableEntityProvider implements VariableEntityProvid
           builder.add(new VariableEntityBean(GNPostalCodesValueTable.ENTITY_TYPE, nextLine[0] + "-" + nextLine[1]));
         }
       } catch(IOException e) {
-        throw new MagmaRuntimeException("Unable to read Postal Codes for Country: " + COUNTRY_NAME + ".", e);
+        throw new MagmaRuntimeException("Unable to read Postal Codes for Country: " + countryName + ".", e);
       } finally {
         try {
           reader.close();
