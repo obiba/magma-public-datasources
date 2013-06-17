@@ -20,15 +20,12 @@ ext {
       junit: 'junit:junit:4.9',
 
       magma_api: "org.obiba.magma:magma-api:${magmaVersion}",
-      magma_datasource_csv: "org.obiba.magma:magma-datasource-csv:${magmaVersion}",
-      magma_datasource_excel: "org.obiba.magma:magma-datasource-excel:${magmaVersion}",
-      magma_datasource_fs: "org.obiba.magma:magma-datasource-fs:${magmaVersion}",
-      magma_js: "org.obiba.magma:magma-js:${magmaVersion}",
-      magma_xstream: "org.obiba.magma:magma-xstream:${magmaVersion}",
 
       obiba_core: 'org.obiba:obiba-core:1.4.0',
 
       opencsv: 'net.sf.opencsv:opencsv:2.3',
+
+      truezip: 'de.schlichtherle.io:truezip:6.6',
 
       slf4j_api: "org.slf4j:slf4j-api:${slf4jVersion}",
       slf4j_log4j12: "org.slf4j:slf4j-log4j12:${slf4jVersion}",

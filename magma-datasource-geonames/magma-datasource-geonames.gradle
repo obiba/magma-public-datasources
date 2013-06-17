@@ -2,6 +2,8 @@ description = 'GeoNames Datasource'
 
 dependencies {
   compile(libraries.magma_api)
+  compile(libraries.opencsv)
+  compile(libraries.truezip)
   compile(libraries.obiba_core)
 
   testCompile(libraries.commons_io)

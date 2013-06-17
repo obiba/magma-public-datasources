@@ -2,8 +2,8 @@ description = 'Health Canada Datasource'
 
 dependencies {
   compile(libraries.magma_api)
-  compile(libraries.magma_datasource_csv)
-  compile(libraries.magma_datasource_fs)
+  compile(libraries.opencsv)
+  compile(libraries.truezip)
   compile(libraries.obiba_core)
 
   testCompile(libraries.commons_io)
