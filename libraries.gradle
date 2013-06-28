@@ -1,6 +1,6 @@
 ext {
 
-  magmaVersion = '1.7-SNAPSHOT'
+  magmaVersion = '1.7.1'
   slf4jVersion = '1.7.4'
 
   libraries = [
