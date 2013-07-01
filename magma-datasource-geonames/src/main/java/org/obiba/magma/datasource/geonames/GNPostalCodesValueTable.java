@@ -44,7 +44,7 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
 
   private final String countryFile;
 
-  private static final Charset WESTERN_EUROPE = Charset.availableCharsets().get("ISO-8859-1");
+  private static final Charset UTF8 = Charset.availableCharsets().get("UTF-8");
 
   private File zipFile;
 
@@ -98,7 +98,7 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
         downloadFile();
       }
       File file = getEntryFile();
-      return new CSVReader(new InputStreamReader(new FileInputStream(file), WESTERN_EUROPE), '\t');
+      return new CSVReader(new InputStreamReader(new FileInputStream(file), UTF8), '\t');
     } catch(IOException e) {
       throw new MagmaRuntimeException("Unable to download GeoNames file: " + countryFile, e);
     }
