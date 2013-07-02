@@ -24,6 +24,7 @@ import org.obiba.magma.support.AbstractValueTable;
 import org.obiba.magma.support.VariableEntityBean;
 import org.obiba.magma.type.DateTimeType;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -161,10 +162,12 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
 
     private String[] getReformedLine(String... line) {
       String[] newline = new String[8];
-      String coordinate = "[" + line[10] + "," + line[9] + "]";
-
+      
       System.arraycopy(line, 2, newline, 0, 7);
-      newline[7] = coordinate;
+      if (!Strings.isNullOrEmpty(line[9]) && !Strings.isNullOrEmpty(line[10])) {
+        String coordinate = "[" + line[10] + "," + line[9] + "]";
+        newline[7] = coordinate;
+      }
       return newline;
     }
 
