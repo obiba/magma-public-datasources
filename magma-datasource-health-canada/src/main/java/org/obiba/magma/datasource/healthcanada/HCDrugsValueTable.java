@@ -128,7 +128,8 @@ public class HCDrugsValueTable extends AbstractValueTable {
         throw new MagmaRuntimeException("Unable to download Health Canada Drugs from: " + ALL_FILES_ZIP_URL, e);
       }
     }
-    return new File(zsource, name);
+    String zipName = name.replace(".txt",".zip");
+    return new File(new File(zsource, zipName), name);
   }
 
   CSVReader getEntryReader(String name) {
