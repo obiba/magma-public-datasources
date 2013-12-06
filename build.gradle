@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply from: 'libraries.gradle'
 
 ext {
-  javaVersion = '1.6'
+  javaVersion = '1.7'
 }
 
 buildscript {
