@@ -22,7 +22,7 @@ public class GNPostalCodesDatasource extends AbstractDatasource {
   @Override
   protected Set<String> getValueTableNames() {
 
-    Collection<String> countries = new ArrayList<String>();
+    Collection<String> countries = new ArrayList<>();
     for(COUNTRIES c : COUNTRIES.values()) {
       countries.add(c.toString());
     }

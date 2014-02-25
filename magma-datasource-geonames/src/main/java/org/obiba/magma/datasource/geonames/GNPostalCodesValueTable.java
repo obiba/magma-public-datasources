@@ -39,9 +39,9 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
 
   private static final int INT = 153600;
 
-  private Map<VariableEntity, String[]> valueSets = Maps.newHashMap();
+  private final Map<VariableEntity, String[]> valueSets = Maps.newHashMap();
 
-  private String country;
+  private final String country;
 
   private final String countryFile;
 
@@ -111,7 +111,7 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
 
   class GNPostalCodesValueSet implements ValueSet {
 
-    private VariableEntity entity;
+    private final VariableEntity entity;
 
     GNPostalCodesValueSet(VariableEntity entity) {
       this.entity = entity;
@@ -162,9 +162,9 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
 
     private String[] getReformedLine(String... line) {
       String[] newline = new String[8];
-      
+
       System.arraycopy(line, 2, newline, 0, 7);
-      if (!Strings.isNullOrEmpty(line[9]) && !Strings.isNullOrEmpty(line[10])) {
+      if(!Strings.isNullOrEmpty(line[9]) && !Strings.isNullOrEmpty(line[10])) {
         String coordinate = "[" + line[10] + "," + line[9] + "]";
         newline[7] = coordinate;
       }

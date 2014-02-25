@@ -12,10 +12,15 @@ import org.obiba.magma.VectorSource;
 
 class HCDrugsVariableValueSource implements VariableValueSource {
 
-  private Variable variable;
+  private final Variable variable;
 
   HCDrugsVariableValueSource(Variable.Builder builder) {
     variable = builder.build();
+  }
+
+  @Override
+  public String getName() {
+    return variable.getName();
   }
 
   @Override
@@ -33,6 +38,11 @@ class HCDrugsVariableValueSource implements VariableValueSource {
   @Override
   public Value getValue(ValueSet valueSet) {
     return ((HCDrugsValueTable.HCDrugsValueSet) valueSet).getValue(variable);
+  }
+
+  @Override
+  public boolean supportVectorSource() {
+    return false;
   }
 
   @Nullable

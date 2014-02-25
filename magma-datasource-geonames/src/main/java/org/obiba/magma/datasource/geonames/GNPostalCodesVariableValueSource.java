@@ -19,6 +19,11 @@ public class GNPostalCodesVariableValueSource implements VariableValueSource {
   }
 
   @Override
+  public String getName() {
+    return variable.getName();
+  }
+
+  @Override
   public Variable getVariable() {
     return variable;
   }
@@ -33,6 +38,11 @@ public class GNPostalCodesVariableValueSource implements VariableValueSource {
   @Override
   public Value getValue(ValueSet valueSet) {
     return ((GNPostalCodesValueTable.GNPostalCodesValueSet) valueSet).getValue(variable);
+  }
+
+  @Override
+  public boolean supportVectorSource() {
+    return false;
   }
 
   @Nullable

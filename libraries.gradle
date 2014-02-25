@@ -1,23 +1,25 @@
 ext {
 
   magmaVersion = '1.8-SNAPSHOT'
-  slf4jVersion = '1.7.4'
+  slf4jVersion = '1.7.6'
 
   libraries = [
 
       commons_io: 'org.apache.commons:commons-io:1.3.2',
 
-      easymock: 'org.easymock:easymock:2.5.2',
+      mockito: 'org.mockito:mockito-all:1.9.5',
+
+      fest: 'org.easytesting:fest-assert-core:2.0M10',
 
       findbugs_annotation: 'net.sourceforge.findbugs:annotations:1.3.2',
 
-      guava: 'com.google.guava:guava:14.0.1',
+      guava: 'com.google.guava:guava:16.0.1',
 
-      hamcrest: 'org.hamcrest:hamcrest-all:1.1',
+      jsr305: 'com.google.code.findbugs:jsr305:2.0.3',
 
-      jsr305: 'com.google.code.findbugs:jsr305:2.0.1',
+      junit: 'junit:junit:4.11',
 
-      junit: 'junit:junit:4.9',
+      logback_classic: 'ch.qos.logback:logback-classic:1.1.1',
 
       magma_api: "org.obiba.magma:magma-api:${magmaVersion}",
 
@@ -28,8 +30,7 @@ ext {
       truezip: 'de.schlichtherle.io:truezip:6.6',
 
       slf4j_api: "org.slf4j:slf4j-api:${slf4jVersion}",
-      slf4j_log4j12: "org.slf4j:slf4j-log4j12:${slf4jVersion}",
-      jcl_slf4j: "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+      jcl_slf4j: "org.slf4j:jcl-over-slf4j:${slf4jVersion}",
 
   ]
 }

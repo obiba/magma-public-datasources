@@ -10,12 +10,13 @@ import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import org.obiba.magma.Datasource;
 import org.obiba.magma.MagmaDate;
 import org.obiba.magma.MagmaRuntimeException;
 import org.obiba.magma.NoSuchValueSetException;
@@ -52,12 +53,14 @@ public class HCDrugsValueTable extends AbstractValueTable {
 
   private static final Charset WESTERN_EUROPE = Charset.availableCharsets().get("ISO-8859-1");
 
+  private static final int BUFFER_SIZE = 153600;
+
   private File zsource;
 
   // source file name / entity id / value set
-  private Map<String, Map<String, String[]>> valueSets = Maps.newHashMap();
+  private final Map<String, Map<String, String[]>> valueSets = Maps.newHashMap();
 
-  public HCDrugsValueTable(HCDatasource datasource) {
+  public HCDrugsValueTable(Datasource datasource) {
     super(datasource, "Drugs");
     setVariableEntityProvider(new HCDrugsVariableEntityProvider(this));
     addVariableValueSources(new HCDrugsVariableValueSourceFactory());
@@ -107,12 +110,12 @@ public class HCDrugsValueTable extends AbstractValueTable {
     java.io.File allfiles = java.io.File.createTempFile("healthcanada-drugs-", ".zip");
     allfiles.deleteOnExit();
     FileOutputStream writer = new FileOutputStream(allfiles);
-    byte[] buffer = new byte[153600];
+    byte[] buffer = new byte[BUFFER_SIZE];
     int bytesRead = 0;
 
     while((bytesRead = reader.read(buffer)) > 0) {
       writer.write(buffer, 0, bytesRead);
-      buffer = new byte[153600];
+      buffer = new byte[BUFFER_SIZE];
     }
     writer.close();
     reader.close();
@@ -128,7 +131,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
         throw new MagmaRuntimeException("Unable to download Health Canada Drugs from: " + ALL_FILES_ZIP_URL, e);
       }
     }
-    String zipName = name.replace(".txt",".zip");
+    String zipName = name.replace(".txt", ".zip");
     return new File(new File(zsource, zipName), name);
   }
 
@@ -140,7 +143,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
     }
   }
 
-  String[] normalize(String[] line) {
+  String[] normalize(String... line) {
     for(int i = 0; i < line.length; i++) {
       line[i] = normalize(line[i]);
     }
@@ -222,7 +225,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
         try {
           return DateType.get().valueOf(dateFormat.parse(value));
         } catch(ParseException e) {
-          e.printStackTrace();
+          log.warn("ParseException", e);
           return DateType.get().nullValue();
         }
 
@@ -230,11 +233,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
         // case of abusive merging of lines
         if(value.indexOf('|') != -1) {
           String[] values = value.split("\\|");
-          if(values.length > 0) {
-            return getValue(type, values[0]);
-          } else {
-            return type.nullValue();
-          }
+          return values.length > 0 ? getValue(type, values[0]) : type.nullValue();
         }
         return type.valueOf(value);
       }
@@ -249,7 +248,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
      * @return
      */
     private Value getValueSequence(ValueType type, String value) {
-      List<Value> values = new ArrayList<Value>();
+      Collection<Value> values = new ArrayList<>();
       for(String val : value.split("\\|")) {
         values.add(getValue(type, val));
       }
@@ -263,7 +262,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
      * @param nextLine
      * @return
      */
-    private String[] merge(String[] previousLine, String[] nextLine) {
+    private String[] merge(String[] previousLine, String... nextLine) {
       for(int i = 0; i < nextLine.length; i++) {
         previousLine[i] = previousLine[i] + "|" + nextLine[i];
       }
@@ -287,7 +286,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
         @Override
         public Value getLastUpdate() {
           Value updated = getValue(getVariable("LAST_UPDATE_DATE"));
-          if (updated.isNull()) return HCDrugsValueTable.this.getTimestamps().getLastUpdate();
+          if(updated.isNull()) return HCDrugsValueTable.this.getTimestamps().getLastUpdate();
           return updated;
         }
 
@@ -296,10 +295,10 @@ public class HCDrugsValueTable extends AbstractValueTable {
         public Value getCreated() {
           Value created = getLastUpdate();
           Value history = getValue(getVariable("HISTORY_DATE"));
-          if (history.isNull()) return created;
+          if(history.isNull()) return created;
 
-          for (Value val : history.asSequence().getValues()) {
-            if (((MagmaDate)val.getValue()).asDate().before(((MagmaDate)created.getValue()).asDate())) {
+          for(Value val : history.asSequence().getValues()) {
+            if(((MagmaDate) val.getValue()).asDate().before(((MagmaDate) created.getValue()).asDate())) {
               created = val;
             }
           }

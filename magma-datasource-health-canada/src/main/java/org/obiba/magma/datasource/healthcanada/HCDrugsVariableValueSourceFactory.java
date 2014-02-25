@@ -237,7 +237,7 @@ public class HCDrugsVariableValueSourceFactory implements VariableValueSourceFac
     Variable.Builder builder = Variable.Builder.newVariable(name, type, HCDrugsValueTable.DRUG_ENTITY_TYPE);
     if(occGroup != null) {
       builder.repeatable();
-      if(occGroup.isEmpty() == false) {
+      if(!occGroup.isEmpty()) {
         builder.occurrenceGroup(occGroup);
       }
     }

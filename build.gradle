@@ -1,16 +1,12 @@
 apply plugin: 'idea'
 apply from: 'libraries.gradle'
 
-ext {
-  javaVersion = '1.7'
-}
-
 buildscript {
   repositories {
     maven { url 'http://repo.obiba.org/obiba-gradle-plugins-release' }
   }
   dependencies {
-    classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.1.0')
+    classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:latest.release'
   }
 }
 
@@ -23,12 +19,10 @@ allprojects {
 
   group = 'org.obiba.public-datasources'
 
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
+  sourceCompatibility = JavaVersion.VERSION_1_7
+  targetCompatibility = JavaVersion.VERSION_1_7
 
   defaultTasks 'build'
-
-  buildDir = 'target'
 
   repositories {
     maven { url 'http://repo.obiba.org/repo' }
@@ -36,7 +30,7 @@ allprojects {
     mavenLocal()
   }
 
-  tasks.withType(Compile) {
+  tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
   }
 
@@ -145,7 +139,7 @@ allprojects {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '1.6'
+  gradleVersion = '1.10'
 }
 
 subprojects { subProject ->
@@ -156,13 +150,15 @@ subprojects { subProject ->
     compile(libraries.jsr305)
     compile(libraries.findbugs_annotation)
 
+    testCompile(libraries.commons_io)
+    testCompile(libraries.obiba_core)
     testCompile(libraries.junit)
-    testCompile(libraries.easymock)
-    testCompile(libraries.hamcrest)
-    testCompile(libraries.slf4j_log4j12)
+    testCompile(libraries.mockito)
+    testCompile(libraries.fest)
+    testCompile(libraries.logback_classic)
     testCompile(libraries.jcl_slf4j)
 
-    pmd 'net.sourceforge.pmd:pmd:5.0.3'
+    pmd 'net.sourceforge.pmd:pmd:5.0.5'
   }
 
   test {

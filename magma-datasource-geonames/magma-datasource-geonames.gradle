@@ -5,7 +5,4 @@ dependencies {
   compile(libraries.opencsv)
   compile(libraries.truezip)
   compile(libraries.obiba_core)
-
-  testCompile(libraries.commons_io)
-  testCompile(libraries.obiba_core)
 }
