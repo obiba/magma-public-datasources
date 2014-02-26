@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
 
 import org.obiba.magma.Datasource;
 import org.obiba.magma.MagmaDate;
@@ -143,11 +144,12 @@ public class HCDrugsValueTable extends AbstractValueTable {
     }
   }
 
-  String[] normalize(String... line) {
-    for(int i = 0; i < line.length; i++) {
-      line[i] = normalize(line[i]);
+  String[] normalize(@NotNull String... lines) {
+    String[] normalized = new String[lines.length];
+    for(int i = 0; i < lines.length; i++) {
+      normalized[i] = normalize(lines[i]);
     }
-    return line;
+    return normalized;
   }
 
   private String normalize(String str) {
