@@ -7,8 +7,6 @@ import org.obiba.magma.MagmaRuntimeException;
 import org.obiba.magma.VariableEntity;
 import org.obiba.magma.support.VariableEntityBean;
 import org.obiba.magma.support.VariableEntityProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -18,8 +16,6 @@ import au.com.bytecode.opencsv.CSVReader;
  * Get the drugs from Health Canada for Humans only.
  */
 public class HCDrugsVariableEntityProvider implements VariableEntityProvider {
-
-  private static final Logger log = LoggerFactory.getLogger(HCDrugsVariableEntityProvider.class);
 
   private Set<VariableEntity> entities;
 

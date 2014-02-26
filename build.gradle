@@ -1,5 +1,10 @@
 apply plugin: 'idea'
+apply plugin: 'versions'
 apply from: 'libraries.gradle'
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.10'
+}
 
 buildscript {
   repositories {
@@ -7,6 +12,7 @@ buildscript {
   }
   dependencies {
     classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:latest.release'
+    classpath 'com.github.ben-manes:gradle-versions-plugin:0.5-beta-1'
   }
 }
 
@@ -138,9 +144,6 @@ allprojects {
 
 }
 
-task wrapper(type: Wrapper) {
-  gradleVersion = '1.10'
-}
 
 subprojects { subProject ->
 

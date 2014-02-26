@@ -34,6 +34,7 @@ import org.obiba.magma.type.DateType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -51,7 +52,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
   static final String ALL_FILES_ZIP_URL
       = "http://www.hc-sc.gc.ca/dhp-mps/alt_formats/zip/prodpharma/databasdon/allfiles.zip";
 
-  private static final Charset WESTERN_EUROPE = Charset.availableCharsets().get("ISO-8859-1");
+  private static final Charset WESTERN_EUROPE = Charsets.ISO_8859_1;
 
   private static final int BUFFER_SIZE = 153600;
 
@@ -123,7 +124,7 @@ public class HCDrugsValueTable extends AbstractValueTable {
     zsource = new File(allfiles);
   }
 
-  public File getFileEntry(String name) {
+  public File getFileEntry(String fileName) {
     if(zsource == null) {
       try {
         downloadLatestAllFiles();
@@ -131,15 +132,14 @@ public class HCDrugsValueTable extends AbstractValueTable {
         throw new MagmaRuntimeException("Unable to download Health Canada Drugs from: " + ALL_FILES_ZIP_URL, e);
       }
     }
-    String zipName = name.replace(".txt", ".zip");
-    return new File(new File(zsource, zipName), name);
+    return new File(zsource, fileName);
   }
 
-  CSVReader getEntryReader(String name) {
+  CSVReader getEntryReader(String fileName) {
     try {
-      return new CSVReader(new InputStreamReader(new FileInputStream(getFileEntry(name)), WESTERN_EUROPE));
+      return new CSVReader(new InputStreamReader(new FileInputStream(getFileEntry(fileName)), WESTERN_EUROPE));
     } catch(FileNotFoundException e) {
-      throw new MagmaRuntimeException("Unable to read Health Canada Drug file: " + name, e);
+      throw new MagmaRuntimeException("Unable to read Health Canada Drug file: " + fileName, e);
     }
   }
 
