@@ -62,6 +62,11 @@ public class HCDatasourceTest {
     assertThat(currentStatusFlagValue.toString()).isEqualTo("\"N\",\"Y\",\"N\",\"N\",\"N\",\"N\",\"N\",\"N\"");
     assertThat(valueSet.getTimestamps().getLastUpdate().toString()).isEqualTo("2012-06-27");
     assertThat(valueSet.getTimestamps().getCreated().toString()).isEqualTo("1996-09-23");
+
+    for(ValueTable table : ds.getValueTables()) {
+      log.info("Check {}", table.getName());
+      assertThat(table.getValueSetCount()).isNotZero();
+    }
   }
 
 }

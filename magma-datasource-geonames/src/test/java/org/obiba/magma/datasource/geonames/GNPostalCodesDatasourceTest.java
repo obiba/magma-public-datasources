@@ -6,6 +6,7 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.obiba.magma.Datasource;
 import org.obiba.magma.MagmaEngine;
 import org.obiba.magma.ValueSet;
 import org.obiba.magma.ValueTable;
@@ -13,12 +14,16 @@ import org.obiba.magma.Variable;
 import org.obiba.magma.VariableEntity;
 import org.obiba.magma.support.Initialisables;
 import org.obiba.magma.support.VariableEntityBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class GNPostalCodesDatasourceTest {
+
+  private static final Logger log = LoggerFactory.getLogger(GNPostalCodesDatasourceTest.class);
 
   @Before
   public void before() {
@@ -32,12 +37,23 @@ public class GNPostalCodesDatasourceTest {
 
   @Test
   public void createDatasource() {
-    GNPostalCodesDatasource ds = new GNPostalCodesDatasource("foo");
-    Initialisables.initialise(ds);
-    assertThat(ds.getValueTableNames()).hasSize(72);
-    assertThat(ds.getValueTableNames()).contains("CA");
+    GNPostalCodesDatasource datasource = new GNPostalCodesDatasource("foo");
+    Initialisables.initialise(datasource);
+    Set<String> tableNames = datasource.getValueTableNames();
+    assertThat(tableNames).hasSize(GNPostalCodesDatasource.COUNTRIES.values().length);
+    assertThat(tableNames).contains("CA");
 
-    ValueTable postalCodes = ds.getValueTable("CA");
+    testCanada(datasource);
+
+    for(ValueTable table : datasource.getValueTables()) {
+      log.info("Check {}", table.getName());
+      assertThat(table.getValueSetCount()).isNotZero();
+    }
+  }
+
+  private void testCanada(Datasource datasource) {
+
+    ValueTable postalCodes = datasource.getValueTable("CA");
     Set<VariableEntity> entities = postalCodes.getVariableEntities();
     assertThat(entities.size()).isGreaterThan(1040);
     List<Variable> variables = Lists.newArrayList(postalCodes.getVariables());

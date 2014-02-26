@@ -1,7 +1,5 @@
 package org.obiba.magma.datasource.geonames;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -21,12 +19,11 @@ public class GNPostalCodesDatasource extends AbstractDatasource {
 
   @Override
   protected Set<String> getValueTableNames() {
-
-    Collection<String> countries = new ArrayList<>();
-    for(COUNTRIES c : COUNTRIES.values()) {
-      countries.add(c.toString());
+    ImmutableSet.Builder<String> builder = ImmutableSet.builder();
+    for(COUNTRIES country : COUNTRIES.values()) {
+      builder.add(country.toString());
     }
-    return ImmutableSet.copyOf(countries);
+    return builder.build();
   }
 
   @Override
@@ -34,8 +31,8 @@ public class GNPostalCodesDatasource extends AbstractDatasource {
     return new GNPostalCodesValueTable(this, tableName);
   }
 
-  private enum COUNTRIES {
-    AD, AR, AS, AT, AU, AX, BD, BE, BG, BR, CA, CH, CZ, DE, DK, DO, DZ, ES, FI, FO, FR, GB, GF, GG, GL, GP, GT, GU, GY,
+  enum COUNTRIES {
+    AD, AR, AS, AT, AU, AX, BD, BE, BG, BR, CA, CH, CZ, DE, DK, DO, DZ, ES, FI, FO, FR, GB, GF, GG, GL, GP, GT, GU,
     HR, HU, IM, IN, IS, IT, JE, JP, LI, LK, LT, LU, MC, MD, MH, MK, MP, MQ, MX, MY, NL, NO, NZ, PH, PK, PL, PM, PR, PT,
     RE, RU, SE, SI, SJ, SK, SM, TH, TR, US, VA, VI, YT, ZA
   }
