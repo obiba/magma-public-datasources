@@ -105,21 +105,21 @@ public class HCDrugsValueTable extends AbstractValueTable {
     // Get a connection to the URL and start up a buffered reader.
     URL url = new URL(ALL_FILES_ZIP_URL);
     url.openConnection();
-    InputStream reader = url.openStream();
 
     // Setup a buffered file writer to write out what we read from the website.
     java.io.File allfiles = java.io.File.createTempFile("healthcanada-drugs-", ".zip");
     allfiles.deleteOnExit();
-    FileOutputStream writer = new FileOutputStream(allfiles);
-    byte[] buffer = new byte[BUFFER_SIZE];
-    int bytesRead = 0;
 
-    while((bytesRead = reader.read(buffer)) > 0) {
-      writer.write(buffer, 0, bytesRead);
-      buffer = new byte[BUFFER_SIZE];
+    try(InputStream reader = url.openStream();
+        FileOutputStream writer = new FileOutputStream(allfiles)) {
+      byte[] buffer = new byte[BUFFER_SIZE];
+      int bytesRead = 0;
+
+      while((bytesRead = reader.read(buffer)) > 0) {
+        writer.write(buffer, 0, bytesRead);
+        buffer = new byte[BUFFER_SIZE];
+      }
     }
-    writer.close();
-    reader.close();
 
     zsource = new File(allfiles);
   }

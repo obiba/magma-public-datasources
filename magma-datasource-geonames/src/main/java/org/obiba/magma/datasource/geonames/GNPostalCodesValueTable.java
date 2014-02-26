@@ -24,6 +24,7 @@ import org.obiba.magma.support.AbstractValueTable;
 import org.obiba.magma.support.VariableEntityBean;
 import org.obiba.magma.type.DateTimeType;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
@@ -37,7 +38,7 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
 
   public static final String ENTITY_TYPE = "PostalCode";
 
-  private static final int INT = 153600;
+  private static final int BUFFER_SIZE = 153600;
 
   private final Map<VariableEntity, String[]> valueSets = Maps.newHashMap();
 
@@ -45,7 +46,7 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
 
   private final String countryFile;
 
-  private static final Charset UTF8 = Charset.availableCharsets().get("UTF-8");
+  private static final Charset UTF8 = Charsets.UTF_8;
 
   private File zipFile;
 
@@ -74,21 +75,19 @@ public class GNPostalCodesValueTable extends AbstractValueTable {
     // Get a connection to the URL and start up a buffered reader.
     URL url = new URL(POSTAL_CODES_URL + country + ".zip");
     url.openConnection();
-    InputStream reader = url.openStream();
 
     // Setup a buffered file writer to write out what we read from the website.
     java.io.File file = java.io.File.createTempFile("postal-codes", ".zip");
     file.deleteOnExit();
-    FileOutputStream writer = new FileOutputStream(file);
-    byte[] buffer = new byte[INT];
-    int bytesRead = 0;
-
-    while((bytesRead = reader.read(buffer)) > 0) {
-      writer.write(buffer, 0, bytesRead);
-      buffer = new byte[INT];
+    try(InputStream reader = url.openStream();
+        FileOutputStream writer = new FileOutputStream(file)) {
+      byte[] buffer = new byte[BUFFER_SIZE];
+      int bytesRead = 0;
+      while((bytesRead = reader.read(buffer)) > 0) {
+        writer.write(buffer, 0, bytesRead);
+        buffer = new byte[BUFFER_SIZE];
+      }
     }
-    writer.close();
-    reader.close();
 
     zipFile = new File(file);
   }
