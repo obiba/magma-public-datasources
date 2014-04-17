@@ -2,6 +2,7 @@ ext {
 
   magmaVersion = '1.8.0'
   slf4jVersion = '1.7.6'
+  obibaCommonsVersion = '1.6-SNAPSHOT'
 
   libraries = [
 
@@ -23,7 +24,7 @@ ext {
 
       magma_api: "org.obiba.magma:magma-api:${magmaVersion}",
 
-      obiba_core: 'org.obiba:obiba-core:1.4.0',
+      obiba_core: "org.obiba.commons:obiba-core:${obibaCommonsVersion}",
 
       opencsv: 'net.sf.opencsv:opencsv:2.3',
 
