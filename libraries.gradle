@@ -1,8 +1,8 @@
 ext {
 
-  magmaVersion = '1.8.0'
+  magmaVersion = '1.9.0'
   slf4jVersion = '1.7.6'
-  obibaCommonsVersion = '1.6-SNAPSHOT'
+  obibaCommonsVersion = '1.6.0'
 
   libraries = [
 
